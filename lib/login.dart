@@ -1,19 +1,25 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:read_app/login.dart';
+import 'package:read_app/data/fake_data.dart';
+import 'package:read_app/homepage.dart';
+import 'package:read_app/sign_up.dart';
 
-class SignUp extends StatefulWidget {
-  const SignUp({Key? key}) : super(key: key);
+import 'model/user.dart';
+class Login extends StatefulWidget{
+  const Login({super.key});
+
 
   @override
-  _SignUpState createState() => _SignUpState();
+  _LoginState createState() => _LoginState();
 }
 
-class _SignUpState extends State<SignUp> {
+class _LoginState extends State<Login>{
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
 
+
+  List<User> users = FAKE_ACCOUNT;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,9 +30,8 @@ class _SignUpState extends State<SignUp> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             SizedBox(height: 40,),
-
             Text(
-              "Create your account",
+              "Login",
               style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 24,
@@ -34,7 +39,7 @@ class _SignUpState extends State<SignUp> {
             ),
             SizedBox(height: 8),
             Text(
-              "Create an account and explore a tailored library of captivating stories.",
+              "Welcome back! Log in to resume your reading journey. ",
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.grey,
@@ -104,6 +109,7 @@ class _SignUpState extends State<SignUp> {
                   child: ElevatedButton(
                     onPressed: () {
                       print("Pressed");
+                      _signIn();
                     },
                     style: ButtonStyle(
                       backgroundColor: WidgetStateProperty.all<Color>(Color(0xFF34A853)),
@@ -114,7 +120,7 @@ class _SignUpState extends State<SignUp> {
                         ),
                       ),
                     ),
-                    child: Text('Create new Account'),
+                    child: Text('Login'),
                   ),
                 ),
               ],
@@ -123,13 +129,13 @@ class _SignUpState extends State<SignUp> {
             Center(
               child: Text.rich(
                 TextSpan(
-                  text: 'Already have an account? ',
+                  text: 'Don\'t have an account? ',
                   style: TextStyle(
                     color: Colors.grey[700],
                   ),
                   children: [
                     TextSpan(
-                      text: 'Login',
+                      text: 'Sign up',
                       style: TextStyle(
                         color: Colors.green,
                       ),
@@ -137,9 +143,7 @@ class _SignUpState extends State<SignUp> {
                         ..onTap = () {
                           // Navigate to the login page here
                           Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => Login()
-                            )
+                            MaterialPageRoute(builder: (context) => SignUp())
                           );
                         },
                     ),
@@ -152,10 +156,10 @@ class _SignUpState extends State<SignUp> {
             Row(
               children: const <Widget>[
                 Expanded(
-                    child: Divider(
-                      color: Colors.grey,
-                      height: 1.5,
-                ),
+                  child: Divider(
+                    color: Colors.grey,
+                    height: 1.5,
+                  ),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10),
@@ -183,15 +187,15 @@ class _SignUpState extends State<SignUp> {
                     },
                     icon: Image.asset('assets/images/google_icon.png',height:50),
                     style: ButtonStyle(
-                      backgroundColor: WidgetStateProperty.all<Color>(Colors.white),
-                      foregroundColor: WidgetStateProperty.all<Color>(Color(0xFF34A853)),
-                      shape: WidgetStateProperty.all<OutlinedBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                        backgroundColor: WidgetStateProperty.all<Color>(Colors.white),
+                        foregroundColor: WidgetStateProperty.all<Color>(Color(0xFF34A853)),
+                        shape: WidgetStateProperty.all<OutlinedBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            )
                         )
-                      )
                     ),
-                    label:  Text("Sign up with Google"),
+                    label:  Text("Login in with Google"),
                   ),
                 ),
               ],
@@ -199,6 +203,38 @@ class _SignUpState extends State<SignUp> {
           ],
         ),
       ),
+    );
+  }
+
+  void _signIn(){
+    String username = _emailController.text;
+    String password = _passwordController.text;
+
+    for (User user in users){
+      if(user.userName == username && user.password == password){
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Homepage())
+        );
+        return;
+      }
+    }
+    showDialog(
+        context: context,
+        builder: (BuildContext context){
+          return AlertDialog(
+            title: Text("Error"),
+            content: Text("Invalid username or password"),
+            actions: <Widget>[
+              TextButton(
+                child: Text("Ok"),
+                onPressed: (){
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        }
     );
   }
 }
