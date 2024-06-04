@@ -37,6 +37,8 @@ class _SignUpState extends State<SignUp> {
                 color: Colors.grey,
               ),
             ),
+
+            //email text field
             SizedBox(height: 20),
             Text(
               'Email Address',
@@ -58,6 +60,8 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
             ),
+
+            //password text field
             SizedBox(height: 10),
             Text(
               'Password',
@@ -88,6 +92,8 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
             ),
+
+            //create account button
             SizedBox(height: 10),
             Row(
               children: [
@@ -97,9 +103,9 @@ class _SignUpState extends State<SignUp> {
                       print("Pressed");
                     },
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF34A853)),
-                      foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                      shape: MaterialStateProperty.all<OutlinedBorder>(
+                      backgroundColor: WidgetStateProperty.all<Color>(Color(0xFF34A853)),
+                      foregroundColor: WidgetStateProperty.all<Color>(Colors.white),
+                      shape: WidgetStateProperty.all<OutlinedBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -114,7 +120,7 @@ class _SignUpState extends State<SignUp> {
             Center(
               child: Text.rich(
                 TextSpan(
-                  text: 'Already have an account? ',
+                  text: 'Don\'t have an account? ',
                   style: TextStyle(
                     color: Colors.grey[700],
                   ),
@@ -134,6 +140,55 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
             ),
+
+            SizedBox(height: 40,),
+            Row(
+              children: const <Widget>[
+                Expanded(
+                    child: Divider(
+                      color: Colors.grey,
+                      height: 1.5,
+                ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Text(
+                    "or",
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ),
+                Expanded(
+                  child: Divider(
+                    color: Colors.grey,
+                    height: 1.5,
+                  ),
+                ),
+              ],
+            ),
+
+            SizedBox(height: 20,),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton.icon(
+                    onPressed: (){
+                      print("Login with Google pressed");
+                    },
+                    icon: Image.asset('assets/images/google_icon.png',height:50),
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.all<Color>(Colors.white),
+                      foregroundColor: WidgetStateProperty.all<Color>(Color(0xFF34A853)),
+                      shape: WidgetStateProperty.all<OutlinedBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        )
+                      )
+                    ),
+                    label:  Text("Sign in with Google"),
+                  ),
+                ),
+              ],
+            )
           ],
         ),
       ),
