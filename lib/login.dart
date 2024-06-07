@@ -193,7 +193,21 @@ class _LoginState extends State<Login>{
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             )
-                        )
+                        ),
+                      side: WidgetStateProperty.all<BorderSide>(
+                        BorderSide(
+                          color: Color(0xFF81D479),
+                          width: 1,
+                        ),
+                      ),
+                      overlayColor: WidgetStateProperty.resolveWith<Color>(
+                            (Set<WidgetState> states) {
+                          if (states.contains(WidgetState.pressed)) {
+                            return Colors.transparent;
+                          }
+                          return Colors.white;
+                        },
+                      ),
                     ),
                     label:  Text("Login in with Google"),
                   ),
@@ -212,7 +226,7 @@ class _LoginState extends State<Login>{
 
     for (User user in users){
       if(user.userName == username && user.password == password){
-        Navigator.push(
+        Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => Homepage())
         );
