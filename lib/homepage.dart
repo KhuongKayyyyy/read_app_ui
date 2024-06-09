@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:read_app/component/book_item.dart';
-import 'package:read_app/data/fake_data.dart';
+import 'package:read_app/collection.dart';
 import 'package:read_app/login.dart';
-import 'package:read_app/model/book.dart';
+import 'home_content.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({Key? key});
@@ -12,13 +11,11 @@ class Homepage extends StatefulWidget {
 
 class _HomePageState extends State<Homepage> {
   int _selectedIndex = 0;
-  Iterable<Book> recommendation = BOOKS.take(5);
-  Iterable<Book> newRelease = BOOKS.skip(5).take(5);
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text('Home Page'),
+  static final List<Widget> _widgetOptions = <Widget>[
+    HomeContent(),
     Text('Explore Page'),
-    Text('My Collection Page'),
+    Collection(),
   ];
 
   void _onItemTapped(int index) {
@@ -26,9 +23,7 @@ class _HomePageState extends State<Homepage> {
       _selectedIndex = index;
     });
   }
-  Text _reading_section(){
-    return Text('asdasd');
-  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +39,7 @@ class _HomePageState extends State<Homepage> {
                 print("Menu Icon Pressed");
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
-                      builder: (context) => Login()
+                    builder: (context) => Login(),
                   ),
                 );
               },
@@ -65,77 +60,7 @@ class _HomePageState extends State<Homepage> {
           ],
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.only(left: 30),
-        child: SingleChildScrollView(
-          child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            SizedBox(height: 10,),
-            Text(
-              "Recommend for you",
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 20,
-              ),
-            ),
-            Text(
-              "Handpicked based on your reading preferences",
-              style: TextStyle(
-                fontWeight: FontWeight.w100,
-                fontSize: 12,
-              ),
-            ),
-            SizedBox(height: 20,),
-            SizedBox(
-              height: 400,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: recommendation.length,
-                  itemBuilder: (context, index){
-                    Book book = recommendation.elementAt(index);
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: BookItem(book: book,),
-                    );
-                  }
-              ),
-            ),
-
-            SizedBox(height: 10,),
-            Text(
-              "New Release",
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 20,
-              ),
-            ),
-            Text(
-              "Newly released books spanning various genres.",
-              style: TextStyle(
-                fontWeight: FontWeight.w100,
-                fontSize: 12,
-              ),
-            ),
-            SizedBox(
-              height: 400,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: recommendation.length,
-                  itemBuilder: (context, index){
-                    Book book = newRelease.elementAt(index);
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: BookItem(book: book,),
-                    );
-                  }
-              ),
-            ),
-          ],
-        ),
-        ),
-      ),
+      body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
         items: const <BottomNavigationBarItem>[
