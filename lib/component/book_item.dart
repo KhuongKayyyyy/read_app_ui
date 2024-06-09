@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:read_app/explore_page.dart';
 import 'package:read_app/model/book.dart';
 
 class BookItem extends StatelessWidget {
@@ -12,6 +13,12 @@ class BookItem extends StatelessWidget {
     return InkWell(
       onTap: () {
         print(book.bookName);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ExplorePage(book: book)
+            )
+        );
       },
       child: SizedBox(
         height: 400,
